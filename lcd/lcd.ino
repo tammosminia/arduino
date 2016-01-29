@@ -1,13 +1,18 @@
-//using DFRobot.com libraries
-//Compatible with the Arduino IDE 1.0
-//Library version:1.1
+//This will measure the current light level and show it on LCD.
+//It will also keep a record of minimum and maximum level and show that on the LCD
+//This is perfect for checking if the fridge light goes off when you close the door.
+//The startup where it counts to 3000 ms is just for show; not necessary at all :)
 
 #include <Wire.h>
-//#include <LCD.h>
+//The library, in combination with arduino IDE 1.6.7 has a bug. 
+//When using lcd.print, it prints only the first letter
 #include <LiquidCrystal_I2C.h>
 
+//schematic:
+//lcd(with I2C) on sda, scl, +, -
+//photosensor on a0 (and + and - with a 10k ohm resistor)
 
-LiquidCrystal_I2C lcd(0x27,16,2);
+LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 void printLcd(int x, int y, String s) {
   Serial.println("printing" + s);
@@ -27,7 +32,7 @@ void setup(){
   Serial.begin(9600);
   lcd.init();                      // initialize the lcd 
   lcd.backlight();
-  printLcd(0, 0, "opstarten....");
+  printLcd(0, 0, "starting....");
   while(millis() < 3000) {
     printLcd(0, 1, millis());    
   }
